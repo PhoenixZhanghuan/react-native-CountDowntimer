@@ -105,7 +105,22 @@ class CountDown extends Component {
   componentWillUnmount() {
     this.stop();
   }
-  getDateData(diff) {
+
+  compareTime(endTime, startTime) {
+    let leftHour = (endTime.split(" ")[1].split(":")[0] - startTime.split(" ")[1].split(":")[0]) * 3600;
+    let leftMinute= (endTime.split(" ")[1].split(":")[1] - startTime.split(" ")[1].split(":")[1]) * 60;
+    let leftSecond = (endTime.split(" ")[1].split(":")[2] - startTime.split(" ")[1].split(":")[2]) ;
+
+    return leftHour + leftMinute + leftSecond;
+
+  }
+
+  getDateData(endtime) {
+
+    let startTime = new Date().Format("yyyy-MM-dd hh:mm:ss");
+    let diff = this.compareTime(endtime, startTime);
+
+    console.log("diff>>>>", diff);
 
     // let diff = (Date.parse(new Date(endDate)) - Date.parse(new Date)) / 1000;
     if (diff <= 0) {
