@@ -25,16 +25,22 @@ const styles = StyleSheet.create({
   },
   //时间文字
   defaultTime: {
-    paddingHorizontal: 3,
-    backgroundColor: 'rgba(85, 85, 85, 1)',
+    color: '#FFFFFF',
     fontSize: 12,
-    color: 'white',
-    marginHorizontal: 3,
-    borderRadius: 2,
+  },
+  // 时间文字背景
+  defaultTimeBackground: {
+    borderRadius: 4,
+    width: 18,
+    height: 18,
+    marginLeft: 5,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#FF7800'
   },
   //冒号
   defaultColon: {
-    fontSize: 12, color: 'rgba(85, 85, 85, 1)'
+    color: '#FF7800', fontSize: 10, marginLeft: 5
   }
 });
 
@@ -49,13 +55,13 @@ class CountDown extends Component {
     onEnd: PropTypes.func,
 
     containerStyle: View.propTypes.style,
-    daysStyle: View.propTypes.style,
-    hoursStyle: View.propTypes.style,
-    minsStyle: View.propTypes.style,
-    secsStyle: View.propTypes.style,
-    firstColonStyle: View.propTypes.style,
-    secondColonStyle: View.propTypes.style,
-
+    daysStyle: Text.propTypes.style,
+    hoursStyle: Text.propTypes.style,
+    minsStyle: Text.propTypes.style,
+    secsStyle: Text.propTypes.style,
+    firstColonStyle: Text.propTypes.style,
+    secondColonStyle: Text.propTypes.style,
+    timeBackgroundStyle: View.propTypes.style
   };
   static defaultProps = {
     date: new Date(),
@@ -75,6 +81,8 @@ class CountDown extends Component {
     secsStyle: styles.defaultTime,//秒数 字体的style
     firstColonStyle: styles.defaultColon,//从左向右 第一个冒号 字体的style
     secondColonStyle: styles.defaultColon,//从左向右 第2个冒号 字体的style
+
+    timeBackgroundStyle: styles.defaultTimeBackground
 
   };
   state = {
@@ -119,8 +127,6 @@ class CountDown extends Component {
 
     let startTime = new Date().Format("yyyy-MM-dd hh:mm:ss");
     let diff = this.compareTime(endtime, startTime);
-
-    console.log("diff>>>>", diff);
 
     // let diff = (Date.parse(new Date(endDate)) - Date.parse(new Date)) / 1000;
     if (diff <= 0) {
@@ -174,11 +180,22 @@ class CountDown extends Component {
     //
         <View style={this.props.containerStyle}>
           { (countDown.days>0) ? <Text style={this.props.daysStyle}>{ this.leadingZeros(countDown.days)+days}</Text> : null}
-          <Text style={this.props.hoursStyle}>{ this.leadingZeros(countDown.hours)}</Text>
-          <Text style={ this.props.firstColonStyle}>:</Text>
-          <Text style={this.props.minsStyle}>{this.leadingZeros(countDown.min)}</Text>
+
+          <View style={this.props.timeBackgroundStyle}>
+            <Text style={this.props.hoursStyle}>{ this.leadingZeros(countDown.hours)}</Text>
+          </View>
+
+          <Text style={this.props.firstColonStyle}>:</Text>
+
+          <View style={this.props.timeBackgroundStyle}>
+            <Text style={this.props.minsStyle}>{this.leadingZeros(countDown.min)}</Text>
+          </View>
+
           <Text style={this.props.secondColonStyle}>:</Text>
-          <Text style={this.props.secsStyle}>{this.leadingZeros(countDown.sec)}</Text>
+
+          <View style={this.props.timeBackgroundStyle}>
+            <Text style={this.props.secsStyle}>{this.leadingZeros(countDown.sec)}</Text>
+          </View>
         </View>
 
 
