@@ -48,6 +48,7 @@ class CountDown extends Component {
   static displayName = 'Simple countDown';
   static propTypes = {
     date: PropTypes.string,
+    nowTime: PropTypes.string,
     days: PropTypes.objectOf(PropTypes.string),
     hours: PropTypes.string,
     mins: PropTypes.string,
@@ -91,25 +92,25 @@ class CountDown extends Component {
     min: 0,
     sec: 0,
   };
-  componentDidMount() {
-    //console.log(this.props.date);//"2017-03-29T00:00:00+00:00"
-    this.interval = setInterval(()=> {
-      const date = this.getDateData(this.props.date);
-      if (date) {
-        this.setState(date);
-      } else {
-        this.stop();
-        this.props.onEnd();
-      }
-    }, 1000);
-  }
-  componentWillMount() {
-    const date = this.getDateData(this.props.date);
-    if (date) {
-      this.setState(date);
-    }
 
+  componentWillReceiveProps(nextProps) {
+    this.stop();
+    if(this.props !== nextProps && nextProps.startTime) {
+        let diff = this.compareTime(nextProps.date, nextProps.startTime);
+        this.interval = setInterval(()=> {
+          let date = this.getDateData(diff);
+          if (date) {
+            this.setState(date);
+          } else {
+            this.stop();
+            this.props.onEnd();
+            return;
+          }
+          diff--;
+        }, 1000);
+    }
   }
+
   componentWillUnmount() {
     this.stop();
   }
@@ -123,10 +124,7 @@ class CountDown extends Component {
 
   }
 
-  getDateData(endtime) {
-
-    let startTime = new Date().Format("yyyy-MM-dd hh:mm:ss");
-    let diff = this.compareTime(endtime, startTime);
+  getDateData(diff) {
 
     // let diff = (Date.parse(new Date(endDate)) - Date.parse(new Date)) / 1000;
     if (diff <= 0) {
@@ -161,6 +159,7 @@ class CountDown extends Component {
     timeLeft.sec = diff;
     return timeLeft;
   }
+
   render() {
     const countDown = this.state;
     let days;
@@ -202,7 +201,7 @@ class CountDown extends Component {
     );
   }
   stop() {
-    clearInterval(this.interval);
+    this.interval && clearInterval(this.interval);
   }
   leadingZeros(num, length = null) {
 
