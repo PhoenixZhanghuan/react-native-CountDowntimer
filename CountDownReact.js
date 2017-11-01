@@ -93,9 +93,28 @@ class CountDown extends Component {
     sec: 0,
   };
 
+  componentWillMount(){
+    if(this.props.startTime) {
+      this.stop();
+      let diff = this.compareTime(this.props.date, this.props.startTime);
+      this.interval = setInterval(()=> {
+        let date = this.getDateData(diff);
+        if (date) {
+          this.setState(date);
+        } else {
+          this.stop();
+          this.props.onEnd();
+          return;
+        }
+        diff--;
+      }, 1000);
+    }
+  }
+
   componentWillReceiveProps(nextProps) {
-    this.stop();
+
     if(this.props !== nextProps && nextProps.startTime) {
+        this.stop();
         let diff = this.compareTime(nextProps.date, nextProps.startTime);
         this.interval = setInterval(()=> {
           let date = this.getDateData(diff);
