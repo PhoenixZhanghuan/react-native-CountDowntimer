@@ -88,9 +88,9 @@ class CountDown extends Component {
   };
   state = {
     days: 0,
-    hours: 0,
-    min: 0,
-    sec: 0,
+    hours: "--",
+    min: "--",
+    sec: "--",
   };
 
   componentWillMount(){
