@@ -138,15 +138,12 @@ class CountDown extends Component {
     let leftHour;
     let leftMinute;
     let leftSecond;
-    if(endTime.split(" ")[0] ===  startTime.split(" ")[0]) {
-      leftHour = (endTime.split(" ")[1].split(":")[0] - startTime.split(" ")[1].split(":")[0]) * 3600;
-      leftMinute= (endTime.split(" ")[1].split(":")[1] - startTime.split(" ")[1].split(":")[1]) * 60;
-      leftSecond = (endTime.split(" ")[1].split(":")[2] - startTime.split(" ")[1].split(":")[2]) ;
 
-      return leftHour + leftMinute + leftSecond;
-    }else {
-      return (24 - startTime.split(" ")[1].split(":")[0]) * 3600 - startTime.split(" ")[1].split(":")[1] * 60 - startTime.split(" ")[1].split(":")[2] ;
-    }
+    leftHour = (endTime.split(" ")[1].split(":")[0] - startTime.split(" ")[1].split(":")[0]) * 3600;
+    leftMinute= (endTime.split(" ")[1].split(":")[1] - startTime.split(" ")[1].split(":")[1]) * 60;
+    leftSecond = (endTime.split(" ")[1].split(":")[2] - startTime.split(" ")[1].split(":")[2]) ;
+
+    return leftHour + leftMinute + leftSecond;
 
   }
 
