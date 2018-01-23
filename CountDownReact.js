@@ -113,7 +113,7 @@ class CountDown extends Component {
 
   componentWillReceiveProps(nextProps) {
 
-    if(this.props !== nextProps && nextProps.startTime) {
+    if(this.props !== nextProps && nextProps.startTime !== this.props.startTime) {
         this.stop();
         let diff = this.compareTime(nextProps.date, nextProps.startTime);
         this.interval = setInterval(()=> {
